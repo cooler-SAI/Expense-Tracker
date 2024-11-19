@@ -1,4 +1,4 @@
-package main
+package database
 
 import (
 	"database/sql"
@@ -7,10 +7,10 @@ import (
 	"log"
 )
 
-const dbName = "expenses.db"
+const DbName = "expenses.db"
 
 func initDB() *sql.DB {
-	db, err := sql.Open("sqlite3", dbName)
+	db, err := sql.Open("sqlite3", DbName)
 	if err != nil {
 		log.Fatalf("Failed to open database: %v", err)
 	}
