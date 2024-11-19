@@ -9,7 +9,7 @@ import (
 
 const DbName = "expenses.db"
 
-func initDB() *sql.DB {
+func InitDB() *sql.DB {
 	db, err := sql.Open("sqlite3", DbName)
 	if err != nil {
 		log.Fatalf("Failed to open database: %v", err)
