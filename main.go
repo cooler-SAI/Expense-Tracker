@@ -3,11 +3,15 @@ package main
 import (
 	"Expense-Tracker/database"
 	"database/sql"
-	"fmt"
+	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/log"
+	"os"
 )
 
 func main() {
-	fmt.Println("Hello Expense-Tracker")
+	log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
+
+	log.Info().Msgf("Hello Expense-Tracker")
 
 	db := database.InitDB()
 	defer func(db *sql.DB) {
@@ -17,5 +21,5 @@ func main() {
 		}
 	}(db)
 
-	fmt.Println("Expense Tracker is ready to use!")
+	log.Info().Msgf("Expense Tracker is ready to use!")
 }

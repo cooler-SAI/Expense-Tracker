@@ -24,7 +24,6 @@ var addCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(addCmd)
 
-	// Добавляем флаги
 	addCmd.Flags().StringVarP(&description, "description", "d", "",
 		"Description of the expense")
 	addCmd.Flags().Float64VarP(&amount, "amount", "a", 0,
