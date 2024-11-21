@@ -1,6 +1,7 @@
 package main
 
 import (
+	"Expense-Tracker/cmd"
 	"Expense-Tracker/database"
 	"database/sql"
 	"github.com/rs/zerolog"
@@ -9,17 +10,19 @@ import (
 )
 
 func main() {
-	log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
 
-	log.Info().Msgf("Hello Expense-Tracker")
+	log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
+	log.Info().Msgf("Starting Expense-Tracker ...")
 
 	db := database.InitDB()
 	defer func(db *sql.DB) {
 		err := db.Close()
 		if err != nil {
-
+			log.Error().Err(err).Msg("Error closing database")
 		}
 	}(db)
 
-	log.Info().Msgf("Expense Tracker is ready to use!")
+	cmd.Execute()
+
+	log.Info().Msgf("Expense Tracker's work finished")
 }

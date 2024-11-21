@@ -22,7 +22,7 @@ var addCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(addCmd)
+	rootCmd.AddCommand(addCmd) // Регистрация команды в rootCmd
 
 	addCmd.Flags().StringVarP(&description, "description", "d", "",
 		"Description of the expense")
@@ -42,6 +42,7 @@ func init() {
 }
 
 func addExpense(description string, amount float64, category string) {
+	log.Printf("addExpense called with: description=%s, amount=%.2f, category=%s", description, amount, category)
 
 	db, err := sql.Open("sqlite3", database.SQLBaseName)
 	if err != nil {
@@ -55,6 +56,10 @@ func addExpense(description string, amount float64, category string) {
 	}(db)
 
 	query := `INSERT INTO expenses (date, description, amount, category) VALUES (?, ?, ?, ?)`
+	log.Printf("Executing query: %s", query)
+	log.Printf("Parameters: date=%s, description=%s, amount=%.2f, category=%s",
+		time.Now().Format("2006-01-02"), description, amount, category)
+
 	_, err = db.Exec(query, time.Now().Format("2006-01-02"), description, amount, category)
 	if err != nil {
 		log.Fatalf("Error adding expense: %v", err)
