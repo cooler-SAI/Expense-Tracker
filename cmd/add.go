@@ -43,7 +43,7 @@ func init() {
 
 func addExpense(description string, amount float64, category string) {
 
-	db, err := sql.Open("sqlite3", database.DbName)
+	db, err := sql.Open("sqlite3", database.SQLBaseName)
 	if err != nil {
 		log.Fatalf("Error opening database: %v", err)
 	}
