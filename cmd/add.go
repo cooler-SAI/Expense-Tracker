@@ -49,7 +49,8 @@ func init() {
 }
 
 func addExpense(description string, amount float64, category string) {
-	log.Info().Msgf("addExpense called with: description=%s, amount=%.2f, category=%s", description, amount, category)
+	log.Info().Msgf("ADD COMMAND: description = %s, amount = %.2f, category = %s",
+		description, amount, category)
 
 	db, err := sql.Open("sqlite3", database.SQLBaseName)
 	if err != nil {
@@ -63,8 +64,8 @@ func addExpense(description string, amount float64, category string) {
 	}(db)
 
 	query := `INSERT INTO expenses (date, description, amount, category) VALUES (?, ?, ?, ?)`
-	log.Info().Msgf("Executing query: %s", query)
-	log.Info().Msgf("Parameters: date=%s, description=%s, amount=%.2f, category=%s",
+	log.Info().Msgf("ADD COMMAND: Executing query: %s", query)
+	log.Info().Msgf("ADD COMMAND: Parameters: date = %s, description = %s, amount = %.2f, category = %s",
 		time.Now().Format("2006-01-02"), description, amount, category)
 
 	_, err = db.Exec(query, time.Now().Format("2006-01-02"), description, amount, category)
@@ -72,5 +73,5 @@ func addExpense(description string, amount float64, category string) {
 		log.Fatal().Msgf("Error adding expense: %v", err)
 	}
 
-	log.Info().Msgf("Expense added successfully: %s - $%.2f (%s)\n", description, amount, category)
+	log.Info().Msgf("ADD COMMAND: Expense added successfully: %s - $%.2f (%s)\n", description, amount, category)
 }
