@@ -10,17 +10,21 @@ import (
 
 const SQLBaseName = "expense-tracker.db"
 
+var dbInstance *sql.DB
+
 func initLog() {
 	log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
-	log.Info().Msgf("DATABASE: Init here...")
+	log.Info().Msg("DATABASE: Init here...")
 }
 
 func InitDB() *sql.DB {
 	initLog()
+
 	db, err := sql.Open("sqlite3", SQLBaseName)
 	if err != nil {
-		log.Fatal().Msgf("Failed to open database: %v", err)
+		log.Fatal().Err(err).Msg("Failed to open database")
 	}
+
 	log.Info().Msgf("DATABASE: Using database file: %s", SQLBaseName)
 
 	createTableQuery := `
@@ -34,10 +38,17 @@ CREATE TABLE IF NOT EXISTS expenses (
 
 	_, err = db.Exec(createTableQuery)
 	if err != nil {
-		log.Fatal().Msgf("Error creating table: %v", err)
+		log.Fatal().Err(err).Msg("Error creating table")
 	}
 
 	log.Info().Msg("DATABASE: Database initialized successfully.")
+	dbInstance = db
 	return db
+}
 
+func GetDB() *sql.DB {
+	if dbInstance == nil {
+		log.Fatal().Msg("DATABASE: Instance is nil. Did you call InitDB?")
+	}
+	return dbInstance
 }
