@@ -26,7 +26,7 @@ func init() {
 		Use:   "version",
 		Short: "Print the version number of Expense-Tracker",
 		Run: func(cmd *cobra.Command, args []string) {
-			cmd.Println("Expense-Tracker v" + version)
+			log.Info().Msgf("Expense Tracker %s", version)
 		},
 	})
 }
