@@ -10,13 +10,9 @@ import (
 )
 
 func TestQueryExpenses(t *testing.T) {
+
 	db, mock, err := sqlmock.New()
 	assert.NoError(t, err)
-
-	defer func() {
-		err := db.Close()
-		assert.NoError(t, err)
-	}()
 
 	mock.ExpectQuery("SELECT date, description, amount, category FROM expenses").
 		WillReturnRows(sqlmock.NewRows([]string{"date", "description", "amount", "category"}).
